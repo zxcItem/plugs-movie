@@ -1,0 +1,44 @@
+{
+    "type": "think-admin-plugin",
+    "name": "xiaochao/plugs-movie",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "叶落无痕",
+            "email": "zxcaile@foxmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "plugin\\movie\\": "src"
+        }
+    },
+    "extra": {
+        "config": {
+            "type": "module",
+            "name": "影视系统",
+            "cover": "layui-icon layui-icon-release",
+            "description": "影视系统 功能开发中"
+        },
+        "think": {
+            "services": [
+                "plugin\\movie\\Service"
+            ]
+        },
+        "plugin": {
+            "copy": {
+                "stc/database": "database/migrations"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "zoujingli/think-install": true
+        }
+    }
+}
