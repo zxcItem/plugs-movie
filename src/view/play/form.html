@@ -1,0 +1,25 @@
+<form action="{:sysuri()}" method="post" data-auto="true" class="layui-form-pane layui-form layui-card" data-table-id="TagsData">
+    <div class="layui-card-body padding-left-40">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label color-green">专辑标题</label>
+            <div class="layui-input-block">
+                <input name="name" value="{$vo.name|default=''}" placeholder="请输入资源名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label color-green">链接地址</label>
+            <div class="layui-input-block">
+                <input name="url" value="{$vo.url|default=''}" placeholder="请输入链接地址" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input name='id' type='hidden' value='{$vo.id}'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" data-close type='button' data-confirm="确定要取消修改吗？">取消编辑</button>
+    </div>
+</form>

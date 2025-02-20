@@ -1,0 +1,94 @@
+<div class="think-box-shadow">
+    <form action="{:sysuri()}" id="PlayDataSearch" autocomplete="off" class="layui-form layui-form-pane nowrap form-search" method="get" onsubmit="return false">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">剧集标题</label>
+            <label class="layui-input-inline">
+                <input class="layui-input" name="name" placeholder="请输入剧集标题" value="{$get.name|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">使用状态</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="status">
+                    <option value=''>-- 全部 --</option>
+                    {foreach ['已禁用的记录','已激活的记录'] as $k=>$v}
+                    {if isset($get.status) and $get.status eq $k.''}
+                    <option selected value="{$k}">{$v}</option>
+                    {else}
+                    <option value="{$k}">{$v}</option>
+                    {/if}{/foreach}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+            <!-- {if auth('add')} -->
+            <button class="layui-btn" data-title="添加素材标签" data-modal="{:url('add')}" type="button">
+                <i class="layui-icon">&#xe61f;</i> 添 加
+            </button>
+            <!-- {/if} -->
+        </div>
+
+    </form>
+    <table id="PlayData" data-url="{:request()->url()}" data-target-search="#PlayDataSearch"></table>
+</div>
+
+<script>
+    $(function () {
+        $('#PlayData').layTable({
+            even: true, height: 'full',
+            sort: {field: 'sort desc,id', type: 'desc'},
+            cols: [[
+                {field: 'sort', title: '排序权重', width: 100, align: 'center', sort: true, templet: '#SortInputPlayDataTplModal'},
+                {field: 'video_name', title: '视频标题', minWidth: 100},
+                {field: 'name', title: '剧集标题', minWidth: 100},
+                {field: 'line_name', title: '来源线路', minWidth: 100},
+                {field: 'url', title: '查看', width: 50, templet: function (d) {
+                        return laytpl('<div><a target="_blank" data-iframe="{{d.url}}" data-text="{{d.video_name}}"><i class="layui-icon layui-icon-video"></i></a></div>').render(d);
+                    }},
+                {field: 'status', title: '状态', width: 110, align: 'center', templet: '#StatusSwitchPlayDataTpl'},
+                {field: 'create_time', title: '创建时间', minWidth: 170, align: 'center'},
+                {toolbar: '#ToolbarPlayData', title: '操作面板', minWidth: 150, align: 'center', fixed: 'right'},
+            ]]
+        });
+
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitchPlayData)', function (obj) {
+            var data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('state')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#PlayData').trigger('reload');
+                });
+                return false;
+            }, false);
+        });
+    });
+</script>
+
+<!-- 数据状态切换模板 -->
+<script type="text/html" id="StatusSwitchPlayDataTpl">
+    <!--{if auth("state")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="已激活|已禁用" lay-filter="StatusSwitchPlayData" {{-d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{-d.status ? '<b class="color-green">已激活</b>' : '<b class="color-red">已禁用</b>'}}
+    <!--{/if}-->
+</script>
+
+<!-- 列表排序权重模板 -->
+<script type="text/html" id="SortInputPlayDataTplModal">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri()}" data-value="id#{{d.id}};action#sort;sort#{value}" data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
+
+<!-- 操控面板的模板 -->
+<script type="text/html" id="ToolbarPlayData">
+
+    <!--{if auth("edit")}-->
+    <a class="layui-btn layui-btn-sm" data-title="编辑数据" data-modal='{:url("edit")}?id={{d.id}}'>编 辑</a>
+    <!--{/if}-->
+
+    <!--{if auth("remove")}-->
+    <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除此吗？" data-action="{:url('remove')}" data-value="id#{{d.id}}">删 除</a>
+    <!--{/if}-->
+</script>

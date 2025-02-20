@@ -1,0 +1,90 @@
+<form class="layui-form layui-card layui-form-pane" data-table-id="ResourceTable" action="{:sysuri()}" data-auto="true" method="post">
+    <div class="layui-card-body padding-left-40 transition" id="RuleForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label color-green">资源名称</label>
+            <div class="layui-input-block">
+                <input name="name" value="{$vo.name|default=''}" placeholder="请输入资源名称" required class="layui-input">
+            </div>
+        </div>
+        <div class="layui-col-xs10">
+            <label class="layui-form-label color-green">资源地址</label>
+            <div class="layui-input-block">
+                <input name="address" value="{$vo.address|default=''}" placeholder="请输入资源地址" required class="layui-input">
+            </div>
+        </div>
+        <span class="layui-form-label" style="cursor: pointer;" onclick="check()">连接测试</span>
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-xs5">
+                <label class="layui-form-label color-green">资源类型</label>
+                <div class="layui-input-block">
+                    <div class="layui-input">
+                        {foreach ['json' => 'JSON', 'xml' => 'XML'] as $k => $v}
+                        <label class="think-radio notselect">
+                            <input v-model.number="type" type="radio" value="{$k}" name="type" lay-ignore> {$v}
+                        </label>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs7">
+                <label class="layui-form-label color-green">资源模式</label>
+                <div class="layui-input-block">
+                    <div class="layui-input">
+                        {foreach [0=>'默认模式',1=>'播放器模式',2=>'高级模式'] as $k => $v}
+                        <label class="think-radio notselect">
+                            <input v-model.number="parse_mod" type="radio" value="{$k}" name="parse_mod" lay-ignore> {$v}
+                        </label>
+                        {/foreach}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" v-if="parse_mod===1">
+            <label class="layui-form-label color-green">播放器地址</label>
+            <div class="layui-input-block">
+                <label>
+                    <input name="parse_address" class="layui-input" value="{$vo.parse_address|default=''}">
+                </label>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label color-green">资源备注</label>
+            <div class="layui-input-block">
+                <textarea name="remark" placeholder="请输入资源备注" class="layui-textarea">{$vo.remark|default=""}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'>{/if}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+</form>
+
+<script>
+    require(['vue'], function (vue) {
+        var app = new vue({
+            el: '#RuleForm',
+            data: {
+                type: "{$vo.type|default='json'}",
+                parse_mod: parseInt('{$vo.parse_mod|default=0}'),
+            },
+        });
+    });
+    function check() {
+        // 测试代码
+        $.ajax({
+            url: "{:sysuri('check')}",
+            method: 'post',
+            data: {
+                address: $('input[name="address"]').val()
+            },
+            success: function (data) {
+                layer.msg(data.info,{icon: data.code});return;
+            }
+        });
+    }
+</script>

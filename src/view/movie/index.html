@@ -1,0 +1,109 @@
+{extend name='table'}
+
+{block name="button"}
+
+<!--{if auth("add")}-->
+<button data-modal='{:url("add")}' class='layui-btn layui-btn-sm layui-btn-primary'>添加视频</button>
+<!--{/if}-->
+<!--{if auth("remove")}-->
+<a data-confirm="确定永久删除数据吗？" data-table-id="VideoTable" data-action='{:url("remove")}' data-rule="id#{id}" class='layui-btn layui-btn-sm layui-btn-primary'>批量删除</a>
+<!--{/if}-->
+
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card">
+    <div class="layui-tab-content">
+        {include file='movie/index_search'}
+        <table id="VideoTable" data-line="2" data-url="{:request()->url()}"></table>
+    </div>
+</div>
+{/block}
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#VideoTable').layTable({
+            even: true, height: 'full',
+            sort: {field: 'sort', type: 'desc'},
+            cols: [[
+                {checkbox: true, fixed: true},
+                {field: 'sort', title: '排序权重', width: 100, align: 'center', sort: true, templet: '#SortInputTpl'},
+                {
+                    field: 'cover', title: '封 面', width: 85, align: 'center', templet: function (d) {
+                        return laytpl('<div>{{-showTableImage(d.cover,false,"sm")}}</div>').render(d)
+                    }
+                },
+                {
+                    title: '连载信息', minWidth: 200, templet: function (d) {
+                        let tpls = [];
+                        tpls.push('视频名称：{{d.title||"-"}}')
+                        tpls.push('连载状态：{{d.note||"-"}}')
+                        return laytpl(tpls.join('<br>')).render(d);
+                    }
+                },
+                {
+                    title: '时间信息', minWidth: 100, templet: function (d) {
+                        let tpls = [];
+                        tpls.push('视频年份：{{d.year||"-"}}')
+                        tpls.push('上映时间：{{d.release_time||"-"}}')
+
+                        return laytpl(tpls.join('<br>')).render(d);
+                    }
+                },
+                {
+                    title: '题材地区', minWidth: 120, templet: function (d) {
+                        let tpls = [];
+                        tpls.push('视频题材：{{d.theme_name||"-"}}')
+                        tpls.push('视频分类：{{d.type.pid_name||""}}-{{d.type.name||"-"}}')
+                        return laytpl(tpls.join('<br>')).render(d);
+                    }
+                },
+                {field: 'status', title: '状态', align: 'center', width: 110, templet: '#StatusSwitchTpl'},
+                {field: 'update_time', title: '更新时间', align: 'center', minWidth: 250, sort: true, templet: function (d) {
+                        let tpls = [];
+                        tpls.push('创建时间：{{d.create_time||"-"}}')
+                        tpls.push('更新时间：{{d.update_time||"-"}}')
+                        return laytpl(tpls.join('<br>')).render(d);
+                    }
+                },
+                {toolbar: '#toolbar', title: '操作面板', align: 'center', width: 200, fixed: 'right'}
+            ]]
+        });
+
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitch)', function (obj) {
+            var data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
+            $.form.load("{:url('state')}", data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#VideoTable').trigger('reload');
+                }); else $('#VideoTable').trigger('reload')
+                return false;
+            }, false);
+        });
+    });
+</script>
+<!-- 数据状态切换模板 -->
+<script type="text/html" id="StatusSwitchTpl">
+    <!--{if auth("state")}-->
+    <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="已激活|已禁用" lay-filter="StatusSwitch" {{d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{d.status ? '<b class="color-green">已启用</b>' : '<b class="color-red">已禁用</b>'}}
+    <!--{/if}-->
+</script>
+<!-- 列表排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri()}" data-value="id#{{d.id}};action#sort;sort#{value}" data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
+<script type="text/html" id="toolbar">
+    <!--{if auth("play/index")}-->
+    <button class='layui-btn layui-btn-sm layui-btn-primary' data-modal ='{:url("play/index")}?video_id={{d.id}}' data-title="剧集管理" data-width="920px">剧 集</button>
+    <!--{/if}-->
+    <!--{if auth("edit")} -->
+    <a class="layui-btn layui-btn-sm" data-modal='{:url("edit")}?id={{d.id}}'>编 辑</a>
+    <!--{/if}-->
+    <!--{if auth("remove")}-->
+    <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要永久删除此数据吗？" data-action="{:url('remove')}" data-value="id#{{d.id}}">删 除</a>
+    <!--{/if}-->
+</script>
+{/block}

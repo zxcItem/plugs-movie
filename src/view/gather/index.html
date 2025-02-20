@@ -1,0 +1,124 @@
+{extend name='table'}
+
+{block name="button"}
+
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card">
+
+    <div class="layui-tab-content">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-xs9">
+                <form action="{:sysuri()}" autocomplete="off" class="layui-form layui-form-pane form-search" method="get" onsubmit="return false">
+                    <div class="layui-form-item layui-inline layui-hide">
+                        <label class="layui-form-label">资源ID</label>
+                        <label class="layui-input-inline">
+                            <input class="layui-input" name="resource_id" value="{$get.resource_id|default=''}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">资源名称</label>
+                        <label class="layui-input-inline">
+                            <input class="layui-input" name="wd" value="{$get.wd|default=''}">
+                        </label>
+                    </div>
+                    <!--{notempty name='types'}-->
+                    <div class="layui-form-item layui-inline">
+                        <label class="layui-form-label">资源分类</label>
+                        <div class="layui-input-inline">
+                            <select class="layui-select" lay-search name="t">
+                                <option value="">---------选择分类---------</option>
+                                {foreach $types as &$type} {if isset($get.t) and $get.t eq $type.type_id}
+                                <option selected value="{$type.type_id}">{$type.type_name}</option>
+                                {else}
+                                <option value="{$type.type_id}">{$type.type_name}</option>
+                                {/if}{/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <!--{/notempty}-->
+
+                    <div class="layui-form-item layui-inline">
+                        <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+                        <!--{if auth("batch")}-->
+                        <button data-table-id="GatherTable" data-queue='{:url("batch")}?resource_id={$resource_id}' data-rule="vod_ids#{vod_id}" class='layui-btn layui-btn-sm layui-btn-primary'>采集选中</button>
+                        <!--{/if}-->
+                        <!--{if auth("today")}-->
+                        <button data-table-id="GatherTable" data-queue='{:url("today")}?resource_id={$resource_id}' class='layui-btn layui-btn-sm layui-btn-primary'>采集今日</button>
+                        <!--{/if}-->
+                        <!--{if auth("all")}-->
+                        <button data-table-id="GatherTable" data-queue='{:url("all")}?resource_id={$resource_id}' class='layui-btn layui-btn-sm layui-btn-primary'>采集所有</button>
+                        <!--{/if}-->
+                    </div>
+                </form>
+                <table id="GatherTable" data-url="{:request()->url()}"></table>
+            </div>
+            <!--{notempty name='types'}-->
+            <div class="layui-col-xs3">
+                <!--{if auth("batchBind")}-->
+                <div  class="layui-form-item layui-inline pull-right">
+                    <button data-action='{:url("batchBind")}?resource_id={$resource_id}' class='layui-btn layui-btn-sm layui-btn-primary'>一键绑定</button>
+                </div>
+                <!--{/if}-->
+                <div class="layui-form-item"   style="overflow-x: auto;overflow-y: auto; height:600px">
+                    <table class="layui-table layuiadmin-page-table">
+                        <tbody>
+                        {foreach $types as $v}
+                        <tr class="layui-col-xs6">
+                            <td class="layui-col-xs6">{$v.type_name}</td>
+                            {if $v.resource_type_name}
+                            <td class="layui-col-xs6">
+                                <a data-confirm="确定解绑分类数据吗？" data-action='{:url("unbind")}?resource_id={$v.resource_id}&resource_type_id={$v.type_id}'>{$v.resource_type_name}</a>
+                            </td>
+                            {else /}
+                            <td class="layui-col-xs6">
+                                <a class="color-red" data-modal='{:url("bind")}?resource_id={$v.resource_id}&resource_type_id={$v.type_id}&resource_type_name={$v.type_name}'>未绑定</a>
+                            </td>
+                            {/if}
+                        </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--{/notempty}-->
+        </div>
+
+
+
+
+    </div>
+</div>
+{/block}
+
+{block name='script'}
+<script>
+    $(function () {
+        $('#GatherTable').layTable({
+            even: true, height: 'full',url: "{:sysuri('')}",
+            where: {
+                output: 'layui.table',
+                resource_id: "{$get.resource_id|default=''}",
+                wd: "{$get.wd|default=''}",
+                t: "{$get.t|default=''}"
+            },
+            cols: [[
+                {checkbox: true, fixed: true},
+                {field: 'vod_id', title: '资源ID', width: 80, align: 'center'},
+                {field: 'type_name', title: '资源分类', width: 100},
+                {field: 'vod_name', title: '资源名称', minWidth: 200},
+                {field: 'vod_remarks', title: '连载状态', width: 150},
+                {field: 'vod_play_from', title: '来源', width: 150},
+                {field: 'vod_time', title: '更新时间', width: 200, align: 'center'}
+            ]]
+        });
+    });
+</script>
+
+<script type="text/html" id="ToolbarGatherTable">
+
+
+
+</script>
+{/block}

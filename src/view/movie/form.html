@@ -1,0 +1,149 @@
+<form class="layui-form layui-card layui-form-pane" data-table-id="VideoTable" action="{:sysuri()}" data-auto="true" method="post">
+    <div class="layui-card-body padding-left-40 transition">
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-xs2 text-center padding-top-15">
+                <input type="hidden" data-cut-width="500" data-cut-height="500" data-max-width="500" data-max-height="500" name="cover" value="{$vo.cover|default=''}">
+                <script>$('[name=cover]').uploadOneImage();</script>
+            </div>
+            <div class="layui-col-xs10">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-xs12">
+                        <label class="layui-form-label color-green">视频标题</label>
+                        <div class="layui-input-block">
+                            <input name="title" value="{$vo.title|default=''}" placeholder="请输入视频标题" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12">
+                        <label class="layui-form-label color-green">视频分类</label>
+                        <div class="layui-input-block">
+                            <select class="layui-select" lay-search name="cates">
+                                {foreach $cates as $cate}{if $cate.id eq $vo.type_id}
+                                <option selected value="{:arr2str($cate.ids)}">{:join(' ＞ ', $cate.names)}</option>
+                                {else}
+                                <option value="{:arr2str($cate.ids)}">{:join(' ＞ ', $cate.names)}</option>
+                                {/if}{/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space15">
+
+            <div class="layui-col-xs6">
+                <label class="layui-form-label color-green">连载</label>
+                <div class="layui-input-block">
+                    <input name="note" value="{$vo.note|default=''}" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-col-xs6">
+                <label class="layui-form-label color-green">总集数</label>
+                <div class="layui-input-block">
+                    <input name="total" value="{$vo.total|default=''}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <label class="layui-form-label color-green">地区</label>
+                <div class="layui-input-block">
+                    <select class="layui-select" lay-search name="region_id">
+                        {empty name='vo.region_id'}{assign name='vo.region_id' value='0'}{/empty}
+                        {foreach $regions as $k => $v}{if $vo.region_id && $vo.region_id eq $k}
+                        <option selected value="{$k}">{$v}</option>
+                        {else}
+                        <option value="{$k}">{$v}</option>
+                        {/if}{/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <label class="layui-form-label color-green">剧情类型</label>
+                <div class="layui-input-block">
+                    <div name="theme" id="demo1" class="xm-select-demo"></div>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <label class="layui-form-label color-green">导演</label>
+                <div class="layui-input-block">
+                    <input name="directors" value="{$vo.directors|default=''}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <label class="layui-form-label color-green">浏览总量</label>
+                <div class="layui-input-block">
+                    <input type="number" name="view" value="{$vo.view|default=''}" class="layui-input">
+                </div>
+            </div>
+
+
+            <div class="layui-col-xs6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label color-green">年份</label>
+                    <div class="layui-input-block">
+                        <input name="year" value="{$vo.year|default=''}" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label color-green">上映时间</label>
+                    <div class="layui-input-block">
+                        <input name="release_time" value="{$vo.release_time|default=''}" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label color-green">推荐</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input">
+                            {empty name='vo.recommend'}{assign name='vo.recommend' value='0'}{/empty}
+                            {foreach ['否','是'] as $k=>$n}
+                            <label class="think-radio">
+                                {if (isset($vo.recommend) && $vo.recommend eq $k)}
+                                <input checked type="radio" name="recommend" value="{$k}" lay-ignore> {$n}
+                                {else}
+                                <input type="radio" name="recommend" value="{$k}" lay-ignore> {$n}
+                                {/if}
+                            </label>
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <div class="layui-form-text">
+                    <label class="layui-form-label color-green">演员信息</label>
+                    <div class="layui-input-block">
+                        <textarea name="actors" class="layui-textarea">{$vo.actors|default=""}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label color-green">简介</label>
+            <div class="layui-input-block">
+                <textarea name="remark" class="layui-textarea">{$vo.remark|default=""}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'>{/if}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+</form>
+<label class="layui-hide">
+    <textarea id="themes">{$themes|raw|default=''}</textarea>
+</label>
+<script>
+    require(['xmSelect'], function () {
+        var demo1 = xmSelect.render({
+            name: 'theme',
+            el: '#demo1',
+            data: JSON.parse($('#themes').val()) || []
+        })
+    })
+</script>

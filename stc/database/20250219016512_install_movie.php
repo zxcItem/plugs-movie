@@ -31,6 +31,7 @@ class InstallMovie extends Migrator
         $this->_create_plugin_movie_item();
         $this->_create_plugin_movie_type();
         $this->_create_plugin_movie_type_item();
+        $this->_create_plugin_movie_navigation();
         $this->_create_plugin_movie_resource();
         $this->_create_plugin_movie_episode();
     }
@@ -171,6 +172,29 @@ class InstallMovie extends Migrator
             ['create_at', 'datetime', ['default' => NULL, 'null' => true, 'comment' => '创建时间']],
         ], [
             'movie_item_id','type','sort','status','create_at',
+        ], true);
+    }
+
+    /**
+     * 影视资源首页导航
+     * @class PluginMovieNavigation
+     * @table plugin_movie_navigation
+     * @return void
+     */
+    private function _create_plugin_movie_navigation()
+    {
+        // 创建数据表对象
+        $table = $this->table('plugin_movie_navigation', [
+            'engine' => 'InnoDB', 'collation' => 'utf8mb4_general_ci', 'comment' => '影视资源首页导航',
+        ]);
+        PhinxExtend::upgrade($table, [
+            ['title', 'string', ['limit' => 32, 'default' => '', 'null' => true, 'comment' => '标题']],
+            ['url', 'string', ['limit' => 64, 'default' => '', 'null' => true, 'comment' => '跳转链接']],
+            ['sort', 'biginteger', ['default' => 0, 'null' => true, 'comment' => '排序权重']],
+            ['status', 'integer', ['limit' => 1, 'default' => 0, 'null' => true, 'comment' => '激活状态(0无效,1有效)']],
+            ['create_at', 'datetime', ['default' => NULL, 'null' => true, 'comment' => '创建时间']],
+        ], [
+            'status',
         ], true);
     }
 }
