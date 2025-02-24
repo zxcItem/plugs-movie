@@ -2,7 +2,7 @@
 
 declare (strict_types=1);
 
-namespace plugin\cinema;
+namespace plugin\movie;
 
 use plugin\movie\command\AllBatch;
 use plugin\movie\command\Batch;
@@ -11,7 +11,7 @@ use think\admin\Plugin;
 /**
  * 组件注册服务
  * @class Service
- * @package plugin\movie
+ * @package plugin\index
  */
 class Service extends Plugin
 {
@@ -25,7 +25,7 @@ class Service extends Plugin
      * 定义安装包名
      * @var string
      */
-    protected $package = 'xiaochao/plugs-movie';
+    protected $package = 'xiaochao/plugs-index';
 
     /**
      * 插件服务注册
@@ -49,9 +49,10 @@ class Service extends Plugin
             [
                 'name' => '影院管理',
                 'subs' => [
-                    ['name' => '视频分类管理', 'icon' => 'layui-icon layui-icon-chart', 'node' => "{$code}/type/index"],
+                    ['name' => '影视导航管理', 'icon' => 'layui-icon layui-icon-chart', 'node' => "{$code}/navigation/index"],
+                    ['name' => '影视分类管理', 'icon' => 'layui-icon layui-icon-chart', 'node' => "{$code}/type/index"],
                     ['name' => '资源采集管理', 'icon' => 'layui-icon layui-icon-chart', 'node' => "{$code}/resource/index"],
-                    ['name' => '视频资源管理', 'icon' => 'layui-icon layui-icon-chart', 'node' => "{$code}/movie/index"]
+                    ['name' => '影视资源管理', 'icon' => 'layui-icon layui-icon-chart', 'node' => "{$code}/movie/index"]
                 ],
             ],
         ];

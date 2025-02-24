@@ -5,7 +5,6 @@ declare (strict_types=1);
 namespace plugin\movie\model;
 
 use think\admin\extend\DataExtend;
-use think\admin\Model;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -15,7 +14,7 @@ use think\model\relation\HasOne;
  * 影视资源分类
  * Class PluginMovieType
  */
-class PluginMovieType extends Model
+class PluginMovieType extends Abs
 {
 
     /**
@@ -30,7 +29,7 @@ class PluginMovieType extends Model
      */
     public static function getParentData(int $max, array &$data, array $parent = []): array
     {
-        $items = static::mk()->where(['deleted' => 0])->order('sort desc,id asc')->select()->toArray();
+        $items = static::mk()->order('sort desc,id asc')->select()->toArray();
         $cates = DataExtend::arr2table(empty($parent) ? $items : array_merge([$parent], $items));
         if (isset($data['id'])) foreach ($cates as $cate) if ($cate['id'] === $data['id']) $data = $cate;
         foreach ($cates as $key => $cate) {
@@ -74,7 +73,7 @@ class PluginMovieType extends Model
      */
     public static function items(bool $simple = false): array
     {
-        $query = static::mk()->where(['status' => 1, 'deleted' => 0])->order('sort desc,id asc');
+        $query = static::mk()->where(['status' => 1])->order('sort desc,id asc');
         $cates = array_column(DataExtend::arr2table($query->column('id,pid,name', 'id')), null, 'id');
         foreach ($cates as $cate) isset($cates[$cate['pid']]) && $cates[$cate['id']]['parent'] =& $cates[$cate['pid']];
         foreach ($cates as $key => $cate) {

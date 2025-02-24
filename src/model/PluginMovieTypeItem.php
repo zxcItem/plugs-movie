@@ -4,14 +4,13 @@ declare (strict_types=1);
 
 namespace plugin\movie\model;
 
-use think\admin\Model;
 use think\model\relation\HasOne;
 
 /**
  * 影视资源分类关联
  * Class PluginMovieTypeItem
  */
-class PluginMovieTypeItem extends Model
+class PluginMovieTypeItem extends Abs
 {
 
     /**

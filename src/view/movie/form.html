@@ -47,20 +47,13 @@
             <div class="layui-col-xs6">
                 <label class="layui-form-label color-green">地区</label>
                 <div class="layui-input-block">
-                    <select class="layui-select" lay-search name="region_id">
-                        {empty name='vo.region_id'}{assign name='vo.region_id' value='0'}{/empty}
-                        {foreach $regions as $k => $v}{if $vo.region_id && $vo.region_id eq $k}
-                        <option selected value="{$k}">{$v}</option>
-                        {else}
-                        <option value="{$k}">{$v}</option>
-                        {/if}{/foreach}
-                    </select>
+                    <input name="region" value="{$vo.region|default=''}" class="layui-input">
                 </div>
             </div>
             <div class="layui-col-xs6">
                 <label class="layui-form-label color-green">剧情类型</label>
                 <div class="layui-input-block">
-                    <div name="theme" id="demo1" class="xm-select-demo"></div>
+                    <input name="theme" value="{$vo.theme|default=''}" class="layui-input">
                 </div>
             </div>
             <div class="layui-col-xs6">
@@ -138,12 +131,3 @@
 <label class="layui-hide">
     <textarea id="themes">{$themes|raw|default=''}</textarea>
 </label>
-<script>
-    require(['xmSelect'], function () {
-        var demo1 = xmSelect.render({
-            name: 'theme',
-            el: '#demo1',
-            data: JSON.parse($('#themes').val()) || []
-        })
-    })
-</script>

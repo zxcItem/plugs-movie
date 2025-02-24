@@ -30,7 +30,7 @@ class Movie extends Controller
             $this->title = '影视资源数据';
             $this->types = PluginMovieType::items();
         }, static function (QueryHelper $query) {
-            $query->with(['region','type'=>function($type){
+            $query->with(['type'=>function($type){
                 $type->with(['type']);
             }])->like('title')->equal('type_id')->dateBetween('create_at');
         });

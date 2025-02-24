@@ -1,0 +1,78 @@
+{extend name="./common/common"}
+
+{block name='content'}
+<!-- 轮播图开始 -->
+<div class="carousel margin-top-20" style="height:320px">
+    <div class="layui-carousel" id="ID-carousel-demo-image" style="border-radius:15px">
+        <div style="border-radius:15px" carousel-item>
+            <a href="">
+                <img style="width: 100%;height: 100%;" src="https://647bc185.szrtcpa.com/2024/03/02/e69671b824ec0.jpg" alt="">
+            </a>
+            <a href="">
+                <img style="width: 100%;height: 100%;" src="https://647bc185.szrtcpa.com/2024/01/25/0cb009abdbc0a.jpg" alt="">
+            </a>
+            <a href="">
+                <img style="width: 100%;height: 100%;" src="https://647bc185.szrtcpa.com/2024/02/19/2798769325308.jpg" alt="">
+            </a>
+            <a href="">
+                <img style="width: 100%;height: 100%;" src="https://647bc185.szrtcpa.com/2024/02/14/0e9d8246d8d71.jpg" alt="">
+            </a>
+        </div>
+    </div>
+</div>
+<!-- 轮播图结束 -->
+
+<!--最近更新-->
+<div class="layui-row layui-col-space20 margin-top-20">
+    <div class="layui-clear">
+        <div class="layui-font-14 layui-bg-gray" style="float: right;">今日更新 <b class="color-blue">100</b> 部  共 <b class="color-blue">2000</b> 部 </div>
+        <div class="layui-font-18 layui-font-black" style="width: auto;font-weight: 600;">最近更新</div>
+    </div>
+    {foreach $updates as &$v}
+    <div class="layui-col-sm4  video-list">
+        <a href="{:url('index/video/detail',['id'=>$v.id])}">
+            <img style="width: 100%;height: 250px;" src="{$v.cover}" alt="">
+            <div><p class="text-left padding-top-10 layui-font-14 text-ellipsis">{$v.title}</p></div>
+            <div><p class="text-left layui-bg-gray padding-top-10 layui-font-10">{$v.update_at} 更新</p></div>
+        </a>
+    </div>
+    {/foreach}
+</div>
+<!--最近更新-->
+
+<!-- 电影 -->
+{foreach $types as &$vo}
+<div class="layui-row layui-col-space20 margin-top-20">
+    <div class="layui-clear">
+        <div style="float: right;"><a class="layui-font-14 layui-bg-gray" href="">更多 >></a></div>
+        <div class="layui-font-18 layui-font-black" style="width: auto;font-weight: 600;">{$vo.name}</div>
+    </div>
+    {foreach $vo.list as &$v}
+    <div class=" layui-col-sm4 video-list">
+        <a href="{$v.id}">
+            <img style="width: 100%;height: 250px;" src="{$v.cover}" alt="">
+            <div><p class="text-left padding-top-10 layui-font-14 text-ellipsis">{$v.title}</p></div>
+            <div><p class="text-left layui-bg-gray padding-top-10 layui-font-10">{$v.update_at} 更新</p></div>
+        </a>
+    </div>
+    {/foreach}
+</div>
+{/foreach}
+<!-- 电影 -->
+
+{/block}
+
+{block name='script'}
+<script>
+    layui.use(function(){
+        var carousel = layui.carousel;
+        // 渲染 - 图片轮播
+        carousel.render({
+            elem: '#ID-carousel-demo-image',
+            width: '100%' ,
+            height: '100%' ,
+            interval: 3000
+        });
+    });
+</script>
+{/block}

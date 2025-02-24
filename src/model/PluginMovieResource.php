@@ -4,13 +4,12 @@ declare (strict_types=1);
 
 namespace plugin\movie\model;
 
-use think\admin\Model;
 
 /**
  * 影视资源采集
  * Class PluginMovieResource
  */
-class PluginMovieResource extends Model
+class PluginMovieResource extends Abs
 {
 
     /**

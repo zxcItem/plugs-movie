@@ -15,7 +15,7 @@ use think\console\Output;
 /**
  * 批量采集所有资源
  * @class AllBatch
- * @package plugin\movie\command
+ * @package plugin\index\command
  */
 class AllBatch extends Command
 {
@@ -25,7 +25,7 @@ class AllBatch extends Command
      */
     protected function configure()
     {
-        $this->setName('plugin:movie:allbatch');
+        $this->setName('plugin:index:allbatch');
         $this->setDescription('批量资源采集数据任务操作');
     }
 

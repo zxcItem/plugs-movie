@@ -2,7 +2,7 @@
 
 namespace plugin\movie\controller;
 
-use plugin\movie\model\PluginMovieEpisode;
+use plugin\movie\model\PluginMovieNavigation;
 use think\admin\Controller;
 use think\admin\helper\QueryHelper;
 use think\db\exception\DataNotFoundException;
@@ -10,12 +10,13 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 
 /**
- * 影视资源剧集数据
+ * 影视资源导航
  */
-class Play extends Controller
+class Navigation extends Controller
 {
+
     /**
-     * 影视资源剧集数据
+     * 影视资源导航
      * @auth true
      * @menu true
      * @return void
@@ -25,10 +26,8 @@ class Play extends Controller
      */
     public  function index()
     {
-        PluginMovieEpisode::mQuery()->layTable(function () {
-            $this->title = '影视资源剧集数据';
-        }, static function (QueryHelper $query) {
-            $query->with(['video'])->equal('movie_item_id,status')->like('name')->dateBetween('create_at');
+        PluginMovieNavigation::mQuery()->layTable(function () {
+            $this->title = '影视资源导航';
         });
     }
 
@@ -38,7 +37,7 @@ class Play extends Controller
      */
     public function add()
     {
-        PluginMovieEpisode::mForm('form');
+        PluginMovieNavigation::mForm('form');
     }
 
     /**
@@ -47,7 +46,7 @@ class Play extends Controller
      */
     public function edit()
     {
-        PluginMovieEpisode::mForm('form');
+        PluginMovieNavigation::mForm('form');
     }
 
     /**
@@ -56,7 +55,7 @@ class Play extends Controller
      */
     public function state()
     {
-        PluginMovieEpisode::mSave($this->_vali([
+        PluginMovieNavigation::mSave($this->_vali([
             'status.in:0,1'  => '状态值范围异常！',
             'status.require' => '状态值不能为空！',
         ]));
@@ -68,6 +67,6 @@ class Play extends Controller
      */
     public function remove()
     {
-        PluginMovieEpisode::mDelete();
+        PluginMovieNavigation::mDelete();
     }
 }

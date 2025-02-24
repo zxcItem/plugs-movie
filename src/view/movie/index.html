@@ -54,16 +54,16 @@
                 {
                     title: '题材地区', minWidth: 120, templet: function (d) {
                         let tpls = [];
-                        tpls.push('视频题材：{{d.theme_name||"-"}}')
+                        tpls.push('剧情类型：{{d.theme||"-"}}')
                         tpls.push('视频分类：{{d.type.pid_name||""}}-{{d.type.name||"-"}}')
                         return laytpl(tpls.join('<br>')).render(d);
                     }
                 },
                 {field: 'status', title: '状态', align: 'center', width: 110, templet: '#StatusSwitchTpl'},
-                {field: 'update_time', title: '更新时间', align: 'center', minWidth: 250, sort: true, templet: function (d) {
+                {field: 'update_at', title: '更新时间', align: 'center', minWidth: 250, sort: true, templet: function (d) {
                         let tpls = [];
-                        tpls.push('创建时间：{{d.create_time||"-"}}')
-                        tpls.push('更新时间：{{d.update_time||"-"}}')
+                        tpls.push('创建时间：{{d.create_at||"-"}}')
+                        tpls.push('更新时间：{{d.update_at||"-"}}')
                         return laytpl(tpls.join('<br>')).render(d);
                     }
                 },
@@ -97,7 +97,7 @@
 </script>
 <script type="text/html" id="toolbar">
     <!--{if auth("play/index")}-->
-    <button class='layui-btn layui-btn-sm layui-btn-primary' data-modal ='{:url("play/index")}?video_id={{d.id}}' data-title="剧集管理" data-width="920px">剧 集</button>
+    <button class='layui-btn layui-btn-sm layui-btn-primary' data-modal ='{:url("play/index")}?movie_item_id={{d.id}}' data-title="剧集管理" data-width="920px">剧 集</button>
     <!--{/if}-->
     <!--{if auth("edit")} -->
     <a class="layui-btn layui-btn-sm" data-modal='{:url("edit")}?id={{d.id}}'>编 辑</a>

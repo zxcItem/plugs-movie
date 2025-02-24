@@ -1,0 +1,88 @@
+{extend name='table'}
+
+{block name="button"}
+<!--{if auth("add")}-->
+<button data-modal='{:url("add")}' data-table-id="TypeTable" class='layui-btn layui-btn-sm layui-btn-primary'>添加分类</button>
+<!--{/if}-->
+{/block}
+
+{block name="content"}
+<div class="layui-tab layui-tab-card">
+    <div class="layui-tab-content">
+        <table id="TypeTable" data-url="{:request()->url()}"></table>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    layui.use(function() {
+        // 渲染
+        layui.treeTable.render({
+            even: true, height: 'full',
+            elem: '#TypeTable',
+            url: "{:sysuri('')}",
+            where: {output: 'layui.table',name:"{$get.name|default=''}",pid:"{$get.pid|default='0'}"},
+            tree: {
+                view:{
+                    showFlexIconIfNotParent:false,
+                    indent:20,
+                    showIcon:true
+                }
+            },
+            cols: [[
+                {checkbox: true, fixed: true},
+                {field: 'sort', title: '排序权重', width: 100, align: 'center', sort: true, templet: '#SortInputTpl'},
+                {field: 'id', title: 'ID', width: 80, align: 'center', sort: true},
+                {field: 'name', title: '分类名称', minWidth: 300},
+                {field: 'number', title: '视频数量', minWidth: 100},
+                {field: 'status', title: '分类状态', minWidth: 120, align: 'center', templet: '#StatusSwitchTpl'},
+                {toolbar:'#toolbar', title: "操作", minWidth: 150, align: "center", fixed: "right"}
+            ]],
+
+        });
+        // 数据状态切换操作
+        layui.form.on('switch(StatusSwitch)', function (object) {
+            object.data = {status: object.elem.checked > 0 ? 1 : 0};
+            object.data.id = object.value.split('|')[object.data.status] || object.value;
+            $.form.load("{:url('state')}", object.data, 'post', function (ret) {
+                if (ret.code < 1) $.msg.error(ret.info, 3, function () {
+                    $('#TypeTable').trigger('reload');
+                }); else {
+                    $('#TypeTable').trigger('reload');
+                }
+                return false;
+            }, false);
+        });
+    })
+</script>
+
+<!-- 数据状态切换模板 -->
+<script type="text/html" id="StatusSwitchTpl">
+    <!--{if auth("state")}-->
+    <input type="checkbox" value="{{d.sps}}|{{d.spp}}" lay-text="已激活|已禁用" lay-filter="StatusSwitch" lay-skin="switch" {{-d.status>0?'checked':''}}>
+    <!--{else}-->
+    {{-d.status ? '<b class="color-green">已激活</b>' : '<b class="color-red">已禁用</b>'}}
+    <!--{/if}-->
+</script>
+
+<!-- 列表排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri()}" data-value="id#{{d.id}};action#sort;sort#{value}" data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
+<script type="text/html" id="toolbar">
+    <!--{if auth('add')}-->
+    {{# if(d.isParent){ }}
+    <a class="layui-btn layui-btn-sm layui-btn-primary" data-title="添加分类" data-modal='{:url("add")}?pid={{d.id}}'>添 加</a>
+    {{# }else{ }}
+    <a class="layui-btn layui-btn-sm layui-btn-disabled">添 加</a>
+    {{# } }}
+    <!--{/if}-->
+    <!--{if auth('edit')}-->
+    <a class="layui-btn layui-btn-sm" data-title="编辑分类" data-modal='{:url("edit")}?id={{d.id}}'>编 辑</a>
+    <!--{/if}-->
+    <!--{if auth('remove')}-->
+    <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除此分类吗？" data-action="{:url('remove')}" data-value="id#{{d.sps}}">删 除</a>
+    <!--{/if}-->
+</script>
+{/block}

@@ -1,0 +1,24 @@
+<form class="layui-form layui-card layui-form-pane" data-table-id="ResourceTable" action="{:sysuri()}" data-auto="true" method="post">
+    <div class="layui-card-body padding-left-40 transition" id="RuleForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label color-green">导航名称</label>
+            <div class="layui-input-block">
+                <input name="title" value="{$vo.title|default=''}" placeholder="请输入导航名称" required class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label color-green">导航地址</label>
+            <div class="layui-input-block">
+                <input name="url" value="{$vo.url|default=''}" placeholder="请输入导航地址" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {if isset($vo['id'])}<input type='hidden' value='{$vo.id}' name='id'>{/if}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+</form>

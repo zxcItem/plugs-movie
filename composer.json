@@ -30,7 +30,8 @@
         },
         "plugin": {
             "copy": {
-                "stc/database": "database/migrations"
+                "stc/database": "database/migrations",
+                "stc/index": "app/index"
             }
         }
     },

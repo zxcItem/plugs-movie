@@ -1,0 +1,76 @@
+<!--导航菜单-->
+{include file="common/top-css" /}
+<div class="layui-row layui-col-space15 padding-top-20">
+    <span class="headimg headimg-no margin-top-15 layui-col-xs1" style="width:127px;height:30px"
+          data-lazy-src="__ROOT__/static/extra/index/img/logo.png"></span>
+    <ul class="layui-nav layui-bg-gray layui-col-xs7" style="background-color: #fff !important;" lay-bar="disabled">
+        {foreach $navigation as $k => $v}
+        <li class="layui-nav-item {if $_SERVER['REQUEST_URI'] == '/' . trim($v, '/')}layui-this{/if}">
+            <a class="layui-font-18" href="{$v}">{$k}</a>
+        </li>
+        {/foreach}
+
+    </ul>
+    <ul class="layui-col-xs3 margin-top-10 margin-right-0 top-right-icon" id="top-right-icon" style="float:right">
+        <li class="layui-col-xs3">
+            <a href="javascript:;" class="layui-font-gray"><i class="layui-icon layui-icon-search margin-left-20  layui-font-26"></i></a>
+            <div class="layui-popup margin-top-10">
+                <div class="layui-popup-form">
+                    <form method="get" action="{:url('index/message/index',[],false)}">
+                        <div class="layui-input-group">
+                            <label>
+                                <input name="name" class="layui-popup-form-input layui-bg-gray layui-input" value="" placeholder="请输入关键词...">
+                            </label>
+                            <div class="layui-input-split layui-input-suffix">
+                                <button style="border-color:transparent;background:none">
+                                    <i class="layui-icon layui-icon-search layui-font-22"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </li>
+        <li class="layui-col-xs3">
+            <a href="javascript:;" class="layui-font-gray"><i class="iconfont iconfont-cascades margin-left-20  layui-font-26"></i></a>
+            <div class="layui-popup popup-list margin-top-10">
+                <ul>
+                    <li class="layui-col-xs3 layui-margin-2"><a class="text-center layui-font-12 layui-bg-orange padding-top-5 padding-bottom-5" href="">电影</a></li>
+                    <li class="layui-col-xs3 layui-margin-2"><a class="text-center layui-font-12 layui-bg-orange padding-top-5 padding-bottom-5" href="">电视剧</a></li>
+                    <li class="layui-col-xs3 layui-margin-2"><a class="text-center layui-font-12 layui-bg-orange padding-top-5 padding-bottom-5" href="">电影</a></li>
+                    <li class="layui-col-xs3 layui-margin-2"><a class="text-center layui-font-12 layui-bg-orange padding-top-5 padding-bottom-5" href="">电影</a></li>
+                    <li class="layui-col-xs3 layui-margin-2"><a class="text-center layui-font-12 layui-bg-orange padding-top-5 padding-bottom-5" href="">电视剧</a></li>
+                    <li class="layui-col-xs3 layui-margin-2"><a class="text-center layui-font-12 layui-bg-orange padding-top-5 padding-bottom-5" href="">电影</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="layui-col-xs3">
+            <a href="javascript:;" class="layui-font-gray"><i class="layui-icon layui-icon-time margin-left-20  layui-font-26"></i></a>
+            <div class="layui-popup popup-list margin-top-10">
+                <ul>
+                    <li class="layui-col-xs12 layui-font-12 padding-top-5">
+                        <span class="layui-col-xs9">播放记录</span><a class="layui-col-xs2 color-red">清空</a>
+                    </li>
+                    <li class="layui-col-xs12 layui-font-12 padding-top-30">
+                        <span class="layui-col-xs12 text-center layui-font-gray">暂无播放记录！</span>
+                    </li>
+                    <li class="layui-col-xs12 layui-font-12 padding-top-20">
+                        <a class="color-text" href="">
+                            <span class="layui-col-xs9">进击的巨人 最终季 完结篇</span><b class="layui-font-gray">1080P</b>
+                        </a>
+                    </li>
+                    <li class="layui-col-xs12 layui-font-12 padding-top-20">
+                        <a class="color-text" href="">
+                            <span class="layui-col-xs9">进击的巨人 最终季 完结篇</span><b class="layui-font-gray">第一集</b>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="layui-col-xs3">
+            <a href="{:url('index/message/index',[],true)}" class="layui-font-gray"><i class="iconfont iconfont-comment_light margin-left-20  layui-font-26"></i></a>
+        </li>
+    </ul>
+</div>
+
+<!--导航菜单-->

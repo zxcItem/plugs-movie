@@ -1,0 +1,146 @@
+{extend name="./common/common"}
+
+{block name='style'}
+<style>
+    @media (max-width: 1360px) {
+        .qrcode-img {
+            display: none;
+        }
+
+    }
+    .detail-img {
+        width:220px;
+        height:311px;
+        float:left;
+    }
+    .qrcode-img {
+        background-color: #eee!important;
+    }
+</style>
+{/block}
+
+{block name='content'}
+<div class="layui-row layui-col-space20 margin-top-20">
+    <div class="layui-col-md2 margin-right-20 detail-img" data-lazy-src="{$vo.cover}"></div>
+    <div class="layui-col-md7  layui-font-14 layui-font-gray">
+        <p class="layui-margin-2 layui-font-20 layui-font-black">{$vo.title}</p>
+        <p class="layui-margin-2">类型：{$vo.theme} / 地区：{$vo.region} / 年份：{$vo.year}</p>
+        <p class="layui-margin-2">主演：{$vo.actors}</p>
+        <p class="layui-margin-2">导演：{$vo.directors}</p>
+        <p class="layui-margin-2">更新：{$vo.update_at}</p>
+        <p class="layui-margin-2">简介：{$vo.remark}</p>
+    </div>
+    <div class="layui-col-md2 text-center qrcode-img">
+        <div class="padding-top-30" >
+            <img class="padding-10" width="80%" height="80%" style="background-color:#ffffff!important;" data-lazy-src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fwww.zxzjhd.com%2Fdetail%2F4377.html" alt="" src="">
+            <p class="layui-font-14 layui-font-gray padding-top-20">扫码观看</p>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row">
+    <div class="layui-tab margin-top-40">
+        <ul class="layui-tab-title">
+            <li class="layui-this">默认线路</li>
+            <li>线路2</li>
+            <li>线路3</li>
+            <li>线路4</li>
+        </ul>
+        <div class="layui-tab-content video-ul-li">
+            <div class="layui-tab-item layui-show">
+                <ul class="layui-font-14 text-center">
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第一集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第二集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第三集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第四集</a></li>
+                </ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul class="layui-font-14 text-center">
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第1集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第2集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第3集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第4集</a></li>
+                </ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul class="layui-font-14 text-center">
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第一集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第二集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第三集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第四集</a></li>
+                </ul>
+            </div>
+            <div class="layui-tab-item">
+                <ul class="layui-font-14 text-center">
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第一集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第二集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第三集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第四集</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layui-row">
+    <div class="layui-tab margin-top-40">
+        <ul class="layui-tab-title">
+            <li class="layui-this">百度网盘</li>
+        </ul>
+        <div class="layui-tab-content video-ul-li">
+            <div class="layui-tab-item layui-show">
+                <ul class="layui-font-14 text-center">
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第一集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第二集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第三集</a></li>
+                    <li class="layui-col-xs1 layui-bg-des layui-padding-1 layui-margin-2"><a class="layui-font-des" href="">第四集</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="layui-row layui-col-space20 margin-top-40">
+    <div class="layui-clear">
+        <div class="layui-font-18 layui-font-black" style="width: auto;font-weight: 600;">猜你喜欢</div>
+    </div>
+    <div class="layui-col-sm4 video-list">
+        <a href="">
+            <img style="width: 100%;height: 100%;" src="https://bftuvip.com/upload/vod/20240227-1/62f8c6e8a868e236a21b829e104f785a.jpg" alt="">
+            <div><p class="text-center layui-bg-gray padding-top-10 layui-font-16">唐人街探案2 剧场</p></div>
+        </a>
+    </div>
+    <div class="layui-col-sm4 video-list">
+        <a href="">
+            <img style="width: 100%;height: 100%;" src="https://bftuvip.com/upload/vod/20240227-1/62f8c6e8a868e236a21b829e104f785a.jpg" alt="">
+            <div><p class="text-center layui-bg-gray padding-top-10 layui-font-16">唐人街探案2 剧场</p></div>
+        </a>
+    </div>
+    <div class="layui-col-sm4 video-list">
+        <a href="">
+            <img style="width: 100%;height: 100%;" src="https://bftuvip.com/upload/vod/20240227-1/62f8c6e8a868e236a21b829e104f785a.jpg" alt="">
+            <div><p class="text-center layui-bg-gray padding-top-10 layui-font-16">唐人街探案2 剧场</p></div>
+        </a>
+    </div>
+    <div class="layui-col-sm4 video-list">
+        <a href="">
+            <img style="width: 100%;height: 100%;" src="https://bftuvip.com/upload/vod/20240227-1/62f8c6e8a868e236a21b829e104f785a.jpg" alt="">
+            <div><p class="text-center layui-bg-gray padding-top-10 layui-font-16">唐人街探案2 剧场</p></div>
+        </a>
+    </div>
+    <div class="layui-col-sm4 video-list">
+        <a href="">
+            <img style="width: 100%;height: 100%;" src="https://bftuvip.com/upload/vod/20240227-1/62f8c6e8a868e236a21b829e104f785a.jpg" alt="">
+            <div><p class="text-center layui-bg-gray padding-top-10 layui-font-16">唐人街探案2 剧场</p></div>
+        </a>
+    </div>
+    <div class="layui-col-sm4 video-list">
+        <a href="">
+            <img style="width: 100%;height: 100%;" src="https://bftuvip.com/upload/vod/20240227-1/62f8c6e8a868e236a21b829e104f785a.jpg" alt="">
+            <div><p class="text-center layui-bg-gray padding-top-10 layui-font-16">唐人街探案2 剧场</p></div>
+        </a>
+    </div>
+</div>
+{/block}

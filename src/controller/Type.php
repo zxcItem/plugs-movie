@@ -46,6 +46,11 @@ class Type extends Controller
         PluginMovieType::addIsParent($data);
     }
 
+    public function select()
+    {
+        $this->index();
+    }
+
 
     /**
      * 添加

@@ -3,10 +3,10 @@
 {block name="button"}
 
 <!--{if auth("add")}-->
-<button data-modal='{:url("add")}' class='layui-btn layui-btn-sm layui-btn-primary'>添加资源采集</button>
+<button data-modal='{:url("add")}' class='layui-btn layui-btn-sm layui-btn-primary'>添加导航</button>
 <!--{/if}-->
 <!--{if auth("remove")}-->
-<a data-confirm="确定永久删除数据吗？" data-table-id="ResourceTable" data-action='{:url("remove")}' data-rule="id#{id}" class='layui-btn layui-btn-sm layui-btn-primary'>批量删除</a>
+<a data-confirm="确定永久删除数据吗？" data-table-id="NavigationTable" data-action='{:url("remove")}' data-rule="id#{id}" class='layui-btn layui-btn-sm layui-btn-primary'>批量删除</a>
 <!--{/if}-->
 
 {/block}
@@ -14,7 +14,7 @@
 {block name="content"}
 <div class="layui-tab layui-tab-card">
     <div class="layui-tab-content">
-        <table id="ResourceTable" data-url="{:request()->url()}"></table>
+        <table id="NavigationTable" data-url="{:request()->url()}"></table>
     </div>
 </div>
 {/block}
@@ -22,14 +22,15 @@
 {block name='script'}
 <script>
     $(function () {
-        $('#ResourceTable').layTable({
+        $('#NavigationTable').layTable({
             even: true, height: 'full',
-            sort: {field: 'create_at', type: 'desc'},
+            sort: {field: 'sort', type: 'desc'},
             cols: [[
                 {checkbox: true, fixed: true},
-                {field: 'name', title: '资源名称',  align: 'center',minWidth: 100},
-                {field: 'address', title: '资源地址',  align: 'center',minWidth: 100},
-                {field: 'status', title: '资源状态', align: 'center', minWidth: 110, templet: '#StatusSwitchTpl'},
+                {field: 'sort', title: '排序权重', width: 100, align: 'center', sort: true, templet: '#SortInputTpl'},
+                {field: 'title', title: '导航标题',  align: 'center',minWidth: 100},
+                {field: 'url', title: '导航链接',  align: 'center',minWidth: 100},
+                {field: 'status', title: '状态', align: 'center', minWidth: 110, templet: '#StatusSwitchTpl'},
                 {field: 'create_at', title: '创建时间', align: 'center', minWidth: 170, sort: true},
                 {toolbar: '#toolbar', title: '操作面板', align: 'center', minWidth: 200, fixed: 'right'}
             ]]
@@ -40,8 +41,8 @@
             var data = {id: obj.value, status: obj.elem.checked > 0 ? 1 : 0};
             $.form.load("{:url('state')}", data, 'post', function (ret) {
                 if (ret.code < 1) $.msg.error(ret.info, 3, function () {
-                    $('#ResourceTable').trigger('reload');
-                }); else $('#ResourceTable').trigger('reload')
+                    $('#NavigationTable').trigger('reload');
+                }); else $('#NavigationTable').trigger('reload')
                 return false;
             }, false);
         });
@@ -55,11 +56,11 @@
     {{d.status ? '<b class="color-green">已启用</b>' : '<b class="color-red">已禁用</b>'}}
     <!--{/if}-->
 </script>
-
+<!-- 列表排序权重模板 -->
+<script type="text/html" id="SortInputTpl">
+    <input type="number" min="0" data-blur-number="0" data-action-blur="{:sysuri()}" data-value="id#{{d.id}};action#sort;sort#{value}" data-loading="false" value="{{d.sort}}" class="layui-input text-center">
+</script>
 <script type="text/html" id="toolbar">
-    <!--{if auth("gather/index")} -->
-    <a class="layui-btn layui-btn-sm" data-open='{:url("gather/index")}?resource_id={{d.id}}'>绑 定</a>
-    <!--{/if}-->
     <!--{if auth("edit")} -->
     <a class="layui-btn layui-btn-sm" data-modal='{:url("edit")}?id={{d.id}}'>编 辑</a>
     <!--{/if}-->

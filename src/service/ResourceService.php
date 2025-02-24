@@ -85,7 +85,7 @@ class ResourceService extends Service
         $video = PluginMovieItem::mk()->where(['type_id'=>$type,'title'=>$model['vod_name']])->find();
         if($video){
             PluginMovieItem::mk()->where(['type_id'=>$type,'title'=>$model['vod_name']])
-                ->update(['note'=>$model['vod_remarks'],'update_time'=>$model['vod_time']]);
+                ->update(['note'=>$model['vod_remarks'],'update_at'=>$model['vod_time']]);
             return $video['id'];
         }
         return PluginMovieItem::mk()->insertGetId([
@@ -96,18 +96,16 @@ class ResourceService extends Service
             'type_id'      => $type,
             'directors'    => $model['vod_director'],
             'actors'       => $model['vod_actor'],
+            'note'         => $model['vod_remarks'],
             'remark'       => $model['vod_blurb'],
             'letter'       => $model['vod_letter'],
-            'douban_id'    => $model['vod_douban_id'],
-            'douban_score' => $model['vod_douban_score'],
-            'note'         => $model['vod_remarks'],
             'year'         => $model['vod_year'],
-            'region'       => $model['region'],
+            'region'       => $model['vod_area'],
             'total'        => $model['vod_total'],
             'release_time' => $model['vod_pubdate'],
-            'theme'        => $model['theme'],
-            'create_time'  => date('Y-m-d H:i:s'),
-            'update_time'  => $model['vod_time']
+            'theme'        => $model['vod_class'],
+            'create_at'    => date('Y-m-d H:i:s'),
+            'update_at'    => $model['vod_time']
         ]);
     }
 
@@ -132,10 +130,11 @@ class ResourceService extends Service
                     if($vo){
                         $video = explode("$", $vo);
                         PluginMovieEpisode::mk()->save([
-                            'video_id' => $video_id,
-                            'name'     => $video[0],
-                            'url'      => $video[1],
-                            'line_name'=> $item['name']
+                            'movie_item_id' => $video_id,
+                            'name'          => $video[0],
+                            'url'           => $video[1],
+                            'line_name'     => $item['name'],
+                            'create_at'     => date('Y-m-d H:i:s'),
                         ]);
                     }
                 }
@@ -164,11 +163,12 @@ class ResourceService extends Service
                     if($vo){
                         $video = explode("$", $vo);
                         PluginMovieEpisode::mk()->save([
-                            'video_id' => $video_id,
-                            'type'     => 1,
-                            'name'     => $video[0],
-                            'url'      => $video[1],
-                            'line_name'=> $item['name']
+                            'movie_item_id' => $video_id,
+                            'type'          => 1,
+                            'name'          => $video[0],
+                            'url'           => $video[1],
+                            'line_name'     => $item['name'],
+                            'create_at'     => date('Y-m-d H:i:s'),
                         ]);
                     }
                 }

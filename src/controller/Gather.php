@@ -38,7 +38,7 @@ class Gather extends Controller
     public function batch()
     {
         $map = $this->_vali(['resource_id.require'=>'资源ID不可为空','vod_ids.require'=>'请勾选需要采集的数据']);
-        $this->_queue('批量资源ID采集数据任务操作', 'plugin:movie:batch',0,$map);
+        $this->_queue('批量资源ID采集数据任务操作', 'plugin:index:batch',0,$map);
     }
 
     /**
@@ -48,7 +48,7 @@ class Gather extends Controller
     public function today()
     {
         $map = $this->_vali(['resource_id.require'=>'资源ID不可为空','h.value'=>24]);
-        $this->_queue('批量资源ID采集数据任务操作', 'plugin:movie:batch',0,$map);
+        $this->_queue('批量资源ID采集数据任务操作', 'plugin:index:batch',0,$map);
     }
 
     /**
@@ -58,7 +58,7 @@ class Gather extends Controller
     public function all()
     {
         $map = $this->_vali(['resource_id.require'=>'资源ID不可为空']);
-        $this->_queue("批量资源ID:{$map['resource_id']}的采集数据任务操作", 'plugin:movie:allbatch',0,$map,0,10);
+        $this->_queue("批量资源ID:{$map['resource_id']}的采集数据任务操作", 'plugin:index:allbatch',0,$map,0,10);
     }
 
     /**

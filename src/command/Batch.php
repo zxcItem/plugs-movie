@@ -14,7 +14,7 @@ use think\console\Output;
 /**
  * 根据资源vod_ids采集资源详情
  * @class Batch
- * @package plugin\movie\command
+ * @package plugin\index\command
  */
 class Batch extends Command
 {
@@ -24,7 +24,7 @@ class Batch extends Command
      */
     protected function configure()
     {
-        $this->setName('plugin:movie:batch');
+        $this->setName('plugin:index:batch');
         $this->setDescription('批量资源ID采集数据任务操作');
     }
 
@@ -43,7 +43,7 @@ class Batch extends Command
         [$total, $count, $error] = [$resource['total'], 0, 0];
         foreach ($resource['list'] as &$model) try {
             $this->queue->message($total, ++$count, sprintf('开始采集【 %s 】资源详情', $model['vod_name']));
-            if (!$type = $types[$model['type_id']]['type_id']) continue;
+            $type = $types[$model['type_id']]['type_id'] ?? 0;
             $this->app->db->transaction(function () use ($model,$resource_id,$type) {
                 $video_id = ResourceService::getVideoId(intval($resource_id),$model, $type);
                 ResourceService::saveVideoPlay($video_id,$model['vod_play_from'],$model['vod_play_url']);
